@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+
+
+    .slider-field {
+      display: flex;
+      align-items: center;
+
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Web Audio</h1>
+
+  <section>
+    <audio src="song.mp3"></audio>
+    <button data-playing="false" role="switch" aria-checked="false" id="play-pause">
+      <span>Play/Pause</span>
+    </button>
+    <div class="slider-field">
+      <label for="volume">Volume</label>
+      <input oncontextmenu="event.preventDefault();" type="range" id="volume" min="0" max="2" value="1" step="0.01" />
+    </div>
+    <div class="slider-field">
+      <span>L</span>
+      <input oncontextmenu="event.preventDefault();" type="range" id="panner" min="-1" max="1" value="0" step="0.01" />
+      <span>R</span>
+    </div>
+  </section>
+  
+  <p>Timestamp: <span id="timestamp"></span></p>
+  <p>Buffer Size: <span id="buffer"></span></p>
+
+  <div class="slider-field">
+    <label for="parts">Distortion</label>
+    <input oncontextmenu="event.preventDefault();" type="range" id="distortion" min="0" max="400" value="0" step="0.01" />
+  </div>
+
+  <section style="background-color: black; display: flex; justify-content: center;">
+    <canvas id="bars"></canvas>
+  </section>
+  <section style="background-color: black; display: flex; justify-content: center;">
+    <canvas id="dots"></canvas>
+  </section>
+
+  <script defer src="index.js"></script>
+</body>
+</html>
