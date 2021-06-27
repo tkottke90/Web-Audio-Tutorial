@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    :root {
+      --theme-primary: rgba(9,9,121,1);
+    }
+    
+    body {
+      font-size: 16px;
+      font-family: sans-serif;
+    }
+
+    button {
+      background-color: transparent;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    #fileManagement {
+      margin: 1rem 0;
+      padding: 1rem;
+      border: 1px solid var(--theme-primary);
+    }
+
+    #openFile {
+      color: var(--theme-primary);
+
+      border: 2px solid var(--theme-primary);
+      border-radius: 0.25rem;
+      padding: 0.25rem 0.5rem;
+
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    #player {
+      padding: 1rem;
+      background: rgb(2,0,36);
+      background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+    
+      display: grid;
+      grid-template-columns: 2rem 1fr ;
+      grid-template-rows: 2rem 2rem 2rem;
+    }
+
+    #filename {
+      grid-column: span 3;
+      margin: 0;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+
+    #seek {
+      grid-column: 2 / span 2;
+      grid-row: 2;
+    }
+
+    #player > button#play-pause {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    #player > button#play-pause > svg {
+      display: block;
+    }
+
+    #player > button#play-pause[data-playing="true"] > svg#play {
+      display: none;
+    }
+
+    #player > button#play-pause[data-playing="false"] > svg#pause {
+      display: none;
+    }
+
+    #controls {
+      grid-column: 2;
+      grid-row: 3;
+
+      display: flex;
+      justify-content: space-evenly;
+
+      color: #fff;
+    }
+
+    #timeDisplay {
+
+      grid-row: 3;
+      grid-column: 3;
+      text-align: end;
+      font-weight: bold;
+
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    #modifications {
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    .slider-field {
+      display: flex;
+      align-items: center;
+
+      margin: 1rem 0;
+    }
+
+    .slider-field--vertical {
+      display: grid;
+      grid-template-rows: 2rem 100px;
+      width: fit-content;
+
+      margin: 0.5rem 0;
+    }
+
+    .slider-field--vertical > label {
+      grid-row: 1;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .slider-field--vertical > input {
+      grid-row: 2;
+
+      transform: rotate(-90deg);
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Web Audio</h1>
+
+  <section id="fileManagement">
+    <input hidden type="file" accept="audio/*" id="song" />
+    <button id="openFile">Load File</button>
+  </section>
+
+  <section id="player">
+    <p id="filename"></p>
+    <button data-playing="false" role="switch" aria-checked="false" id="play-pause" disabled>
+      <svg id="play" style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" /></svg>
+      <svg id="pause" style="width:24px;height:24px" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
+    </svg>
+    </button>
+
+    <input type="range" id="seek" min="0" max="2" value="1" step="0.01" disabled />
+
+
+    <audio></audio>
+    <div id="controls">
+      <div class="slider-field">
+        <label for="volume">Volume</label>
+        <input oncontextmenu="event.preventDefault();" type="range" id="volume" min="0" max="2" value="1" step="0.01" disabled />
+      </div>
+      <div class="slider-field">
+        <span>L</span>
+        <input oncontextmenu="event.preventDefault();" type="range" id="panner" min="-1" max="1" value="0" step="0.01" disabled />
+        <span>R</span>
+      </div>
+    </div>  
+
+    <p id="timeDisplay">
+      <span id="currentTime"></span> / <span id="totalTime"></span>
+    </p>
+  </section>
+  
+  
+  <div id="modifications">
+    <div class="slider-field--vertical">
+      <label for="parts">Distortion</label>
+      <input orient="vertical" oncontextmenu="event.preventDefault();" type="range" id="distortion" min="0" max="400" value="0" step="0.01" disabled />
+    </div>
+
+    <div class="slider-field--vertical">
+      <label for="parts">Low Pass</label>
+      <input orient="vertical" oncontextmenu="event.preventDefault();" type="range" id="lowPass" min="0" max="400" value="0" step="0.01" disabled />
+    </div>
+  </div>
+
+
+  
+  <section style="background-color: black; display: flex; justify-content: center;">
+    <canvas id="bars"></canvas>
+  </section>
+  <section style="background-color: black; display: flex; justify-content: center;">
+    <canvas id="dots"></canvas>
+  </section>
+  
+  <p>Buffer Size: <span id="buffer"></span></p>
+
+  <script type="module" src="file-handler.js"></script>
+  <script defer src="index.js"></script>
+</body>
+</html>

@@ -4,12 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "http-server ."
+    "start:player": "http-server ./lib/player/",
+    "start:mixer": "http-server ./lib/mixer/"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "http-server": "^0.12.3"
+  },
+  "dependencies": {
+    "browser-fs-access": "^0.17.3"
   }
 }
